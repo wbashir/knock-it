@@ -3,7 +3,8 @@
 //var app = angular.module('AngularDrumMachine', ['ngRoute']);
 var app = angular.module('AngularDrumMachine', ['btford.socket-io'])
 .factory('mySocket', function (socketFactory) {
-        return socketFactory();
+        var socket = io.connect("http://localhost:3000");
+        return socket;
     });
 
 app.run(['drumMachine', '$q', '$rootScope', '$timeout', function(drumMachine, $q, $rootScope, $timeout) {

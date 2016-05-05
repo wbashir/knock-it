@@ -11,6 +11,7 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
   var _timers = timerQueue;
   var _rows = [];
 
+
   function loadInstruments(instrumentFile) {
     var item, player, instrument;
     var file = instrumentFile || "/app/services/data/instruments/kit-1.json";
@@ -78,6 +79,7 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
   function stop() {
     _playing = false;
     _timers.clear();
+    turnOffLeds();
   }
 
   function reset() {
@@ -100,6 +102,7 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
 
       for (var i = 0; i < _rows.length; i++) {
         _rows[i].playSound(_currentBeat);
+        turnOnLeds(i);
       }
       _currentBeat += 1;
 
@@ -117,10 +120,41 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
     return (1000 / (_tempo * 2) * 60);
   }
 
-  function turnOnLeds(){
-    // mySocket.emit('led:on');
-    console.log('LED ON');
+  function turnOnLeds(i){
+    
+      var obj = _rows[i];
+      // iterate over the playing beat
+      for(var j = 0; j < obj.getBeats().length; j++){
+        var beat = obj.getBeats()[j];
+        if (beat.isActive()){
+          // if the beat is active, turn on the led using the key (D0)
+          mySocket.emit('led:on', "D" + i); 
+        }
+        else{
+          mySocket.emit('led:off', "D" + i);
+        }
+      }
+    
   }
+
+  function turnOffLeds(){
+    mySocket.emit('led:off');
+  }
+
+  function _controlLEDOBject(emitString){
+    for (var i = 0; i < ledNumbers.length; i++) {
+        var obj = ledNumbers[i];
+        // iterate over the playing beat
+        for(var j = 0; j < obj.getBeats().length; j++){
+          var beat = obj.getBeats()[j];
+          if (beat.isActive()){
+            // if the beat is active, turn on the led using the key (D0)
+            mySocket.emit('led:on', "D" + i); 
+          }
+        }
+    }
+  }
+
 
   // Return public functions
   return {
@@ -134,7 +168,8 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
     play: play,
     stop: stop,
     reset: reset,
-    turnOnLeds: turnOnLeds
+    turnOnLeds: turnOnLeds,
+    turnOffLeds:turnOffLeds
   }
 
 });

@@ -20,14 +20,11 @@ app.controller('DrumMachineCtrl', function($scope, mySocket) {
   $scope.stopLoop = function () {
       $scope.lock = false;
       $scope.machine.stop();
-      
   };
 
   // Reset the machine to its original state
   $scope.resetLoop = function() {
     $scope.machine.reset();
-    mySocket.emit('led:on');
-    console.log('LED ON');
   };
 
   // Update the tempo

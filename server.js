@@ -10,7 +10,13 @@ var port = 3000;
 httpServer.listen(port);  
 console.log('Server available at http://localhost:' + port);  
 
-var led;
+var led0, led1, led2, led3;
+var ledDict = {
+  "D0": led0,
+  "D1": led1,
+  "D2": led2,
+  "D3": led3 
+}
  
 //Photon board connection
 var Photon = require("particle-io");
@@ -27,23 +33,34 @@ var board = new five.Board({
 // });
 
 board.on("ready", function() {
-  led = new five.Led("D7");
-  var secondLed = new five.Led("D0");
-  
+
+  // iterate the LED dictionary and get each stored led variable to 
+  // create a new Johnny Five LED object
+  for (var key in ledDict) {
+    ledDict[key] = new five.Led(key);
+  }
+
+  // led = new five.Led("D7");
+  // var secondLed = new five.Led("D0");
 });
  
 //Socket connection handler
 io.on('connection', function (socket) {  
         console.log(socket.id);
  
-        socket.on('led:on', function (data) {
-           led.on();
-           console.log('LED ON RECEIVED');
+        socket.on('led:on', function (key) {
+           console.log(key);
+           if (key in ledDict){
+             ledDict[key].on()
+             console.log('Turning ON ' + key);
+           }
         });
  
-        socket.on('led:off', function (data) {
-            led.off();
-            console.log('LED OFF RECEIVED');
- 
+        socket.on('led:off', function (key) {
+            console.log(key);
+            if (key in ledDict){
+              ledDict[key].off()
+            }
+            console.log('LED OFF');
         });
     });
