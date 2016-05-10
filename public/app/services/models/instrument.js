@@ -13,7 +13,7 @@ var Instrument = function(player, inst) {
     return description;
   }
 
-  function play() {
+  function play(mySocket) {
     try {
       audioPlayer.play();
       return true;

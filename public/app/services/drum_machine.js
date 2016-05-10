@@ -74,12 +74,13 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
   function play() {
     _playing = true;
     _timers.add(playBeat(), beatDelay());
+    
   }
 
   function stop() {
+    turnOffLeds();
     _playing = false;
     _timers.clear();
-    turnOffLeds();
   }
 
   function reset() {
@@ -99,11 +100,11 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
         _currentBeat = 0;
       }
 
-
       for (var i = 0; i < _rows.length; i++) {
-        _rows[i].playSound(_currentBeat);
-        turnOnLeds(i);
+        _rows[i].playSound(_currentBeat, mySocket, i);
+        
       }
+      // turnOnLeds();
       _currentBeat += 1;
 
       _timers.add(playBeat(), _delay);
@@ -120,41 +121,30 @@ app.factory('drumMachine', function($http, $q, timerQueue, mySocket) {
     return (1000 / (_tempo * 2) * 60);
   }
 
-  function turnOnLeds(i){
-    
-      var obj = _rows[i];
-      // iterate over the playing beat
-      for(var j = 0; j < obj.getBeats().length; j++){
-        var beat = obj.getBeats()[j];
-        if (beat.isActive()){
-          // if the beat is active, turn on the led using the key (D0)
-          mySocket.emit('led:on', "D" + i); 
-        }
-        else{
-          mySocket.emit('led:off', "D" + i);
-        }
+  function turnOnLeds(){
+      
+      for (var i = 0; i < _rows.length; i++) {
+        
+        var obj = _rows[i];
+        // iterate over the playing beat
+        for(var j = 0; j < obj.getBeats().length; j++){
+            var beat = obj.getBeats()[j];
+            // if the beat is active, turn on the led using the key (D0)
+            if(beat.isActive() == true){
+               // console.log("i : j" + i + " " + j);
+               mySocket.emit('led:blink', "D" + i, tempo()); 
+            }
+            else {
+              // console.log("i : j" + i + " " + j);
+              // mySocket.emit('led:off', "D" + i);
+            }
+          }
       }
-    
   }
 
   function turnOffLeds(){
     mySocket.emit('led:off');
   }
-
-  function _controlLEDOBject(emitString){
-    for (var i = 0; i < ledNumbers.length; i++) {
-        var obj = ledNumbers[i];
-        // iterate over the playing beat
-        for(var j = 0; j < obj.getBeats().length; j++){
-          var beat = obj.getBeats()[j];
-          if (beat.isActive()){
-            // if the beat is active, turn on the led using the key (D0)
-            mySocket.emit('led:on', "D" + i); 
-          }
-        }
-    }
-  }
-
 
   // Return public functions
   return {

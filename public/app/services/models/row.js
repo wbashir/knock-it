@@ -27,12 +27,25 @@ var Row = function(instrument, initialBeats) {
     }
   }
 
-  function playSound(index) {
+  function playSound(index, mySocket, row) {
     if (beats[index].isActive()) {
+      // console.log(beats[index].isActive());
+      //  // Make sure the callback is a function​
+      // if (typeof callback === 'function') {
+      // // Call it, since we have confirmed it is callable​
+      //     callback(index);
+      // }
+      console.log('skeeter no '+ index);
+      mySocket.emit('led:on', "D" + row); 
       return instrument.play();
     }
+    else{
+      mySocket.emit('led:off', "D" + row); 
+    }
+
     return false;
   }
+
 
   // Return public functions
   return {

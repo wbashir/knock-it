@@ -49,18 +49,49 @@ io.on('connection', function (socket) {
         console.log(socket.id);
  
         socket.on('led:on', function (key) {
-           console.log(key);
            if (key in ledDict){
              ledDict[key].on()
              console.log('Turning ON ' + key);
            }
         });
+
+        socket.on('led:toggle', function (key) {
+           if (key in ledDict){
+             ledDict[key].toggle()
+             console.log('Toggle' + key);
+           }
+        });
  
-        socket.on('led:off', function (key) {
-            console.log(key);
-            if (key in ledDict){
-              ledDict[key].off()
+        socket.on('led:off', function (k) {
+            if(k){
+                // board.wait(300,function(){
+                //     ledDict[k].stop.off();
+                // });
+                ledDict[k].stop().off();
             }
-            console.log('LED OFF');
+            else {
+              for(var k in ledDict){
+                console.log("Turn Off " + k);
+                ledDict[k].stop().off(); // u
+              }
+            }
+        });
+
+        socket.on('led:blink', function(key, delay){
+             if (key in ledDict){
+                if(key == "D0"){
+                  console.log('Blink' + key);
+                }
+                ledDict[key].blink(delay)
+            }      
+        });
+
+        socket.on('led:pulse', function(key, delay){
+             if (key in ledDict){
+                if(key == "D0"){
+                  console.log('Pulse' + key);
+                }
+                ledDict[key].pulse()
+            }      
         });
     });
