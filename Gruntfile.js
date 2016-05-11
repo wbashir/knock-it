@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
     //Read the package.json (optional)
     pkg: grunt.file.readJSON('package.json'),
-
+    
     // Metadata.
     meta: {
         basePath: './',
