@@ -38,6 +38,10 @@
  "engines": {
     "node": "v0.12.2"
   },
+  "scripts": {
+    "postinstall": "grunt uglify",
+    "start": "node server.js"
+  },
   "author": "Doug Johnston",
   "license": "BSD-2-Clause",
   "bugs": {
