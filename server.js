@@ -5,7 +5,7 @@ var httpServer = require("http").createServer(app);
 var five = require("johnny-five");  
 var io=require('socket.io')(httpServer);
  
-var port = 3000; 
+//var port = 3000; 
 var app            = express();  
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
