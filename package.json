@@ -41,6 +41,7 @@
     "node": "v0.12.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bower install public/assets && source .particlerc"
   }
 }
