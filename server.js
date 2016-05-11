@@ -18,8 +18,6 @@ var server = app.listen(process.env.PORT || 8080, function () {
 });
 
 
-console.log('Server available at http://localhost:' + port);  
-
 var led0, led1, led2, led3;
 var ledDict = {
   "D0": led0,
