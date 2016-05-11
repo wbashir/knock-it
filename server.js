@@ -1,11 +1,15 @@
 // server.js
 var express        = require('express');  
 var app            = express();  
+var bodyParser = require("body-parser");
 var httpServer = require("http").createServer(app);  
 var five = require("johnny-five");  
 var io=require('socket.io')(httpServer);
  
 var port = 3000; 
+
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.json());
 
 httpServer.listen(port);  
 console.log('Server available at http://localhost:' + port);  

@@ -8,9 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dougjohnston/angular-drum-machine.git"
+    "url": "https://github.com/wbashir/knock-it.git"
   },
-  "devDependencies": {
+  "dependencies": {
+    "body-parser": "^1.13.3",
     "bower": "latest",
     "grunt": "latest",
     "grunt-contrib-sass": "latest",
@@ -34,11 +35,5 @@
      "johnny-five": "^0.9.44",
     "particle-io": "^0.12.0",
     "socket.io": "^1.4.5"
-  },
-  "author": "Doug Johnston",
-  "license": "BSD-2-Clause",
-  "bugs": {
-    "url": "https://github.com/dougjohnston/angular-drum-machine/issues"
-  },
-  "homepage": "https://github.com/dougjohnston/angular-drum-machine"
+  }
 }
