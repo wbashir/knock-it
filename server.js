@@ -17,7 +17,8 @@ var server = app.listen(process.env.PORT || 8080, function () {
   console.log("App now running on port", port);
 });
 
-var io= require('socket.io').listen(app);
+var io= require('socket.io').listen(server);
+
 io.configure(function () {  
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
