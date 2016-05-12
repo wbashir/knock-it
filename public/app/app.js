@@ -3,8 +3,8 @@
 //var app = angular.module('AngularDrumMachine', ['ngRoute']);
 var app = angular.module('AngularDrumMachine', ['btford.socket-io'])
 .factory('mySocket', function (socketFactory) {
-        var socket = io.connect(window.location.hostname);
-        
+        var socket = io.connect("https://knock-it.herokuapp.com/");
+        console.log('get here!!');
         socket.on('status', function (data) {  
             $('#status').html(data.status);
         });

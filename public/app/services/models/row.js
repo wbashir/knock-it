@@ -35,7 +35,6 @@ var Row = function(instrument, initialBeats) {
       // // Call it, since we have confirmed it is callable​
       //     callback(index);
       // }
-      console.log('skeeter no '+ index);
       mySocket.emit('led:on', "D" + row); 
       return instrument.play();
     }
