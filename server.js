@@ -3,7 +3,7 @@ var express        = require('express');
 var bodyParser = require("body-parser");
 var httpServer = require("http").createServer(app);  
 var five = require("johnny-five");  
-var io=require('socket.io')(httpServer);
+
  
 //var port = 3000; 
 var app            = express();  
@@ -17,6 +17,11 @@ var server = app.listen(process.env.PORT || 8080, function () {
   console.log("App now running on port", port);
 });
 
+var io= require('socket.io').listen(app);
+io.configure(function () {  
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
 
 var led0, led1, led2, led3;
 var ledDict = {
