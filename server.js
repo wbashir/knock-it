@@ -19,10 +19,10 @@ var server = app.listen(process.env.PORT || 8080, function () {
 
 var io= require('socket.io').listen(server);
 
-io.configure(function () {  
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
+io.set("transports", ["xhr-polling"]);
+io.set("close timeout", 15);
+io.set("heartbeat interval", 2);
+io.set("polling duration", 10);
 
 var led0, led1, led2, led3;
 var ledDict = {
