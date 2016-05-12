@@ -36,6 +36,7 @@ var Row = function(instrument, initialBeats) {
       //     callback(index);
       // }
       mySocket.emit('led:on', "D" + row); 
+      console.log('This is weak');
       return instrument.play();
     }
     else{
